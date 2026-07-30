@@ -27,7 +27,61 @@ jobs:
         run: python -m pip install pyyaml
 
       - name: Validate repository YAML files
-        run: python terraform/scripts/validate_repo_configs.py
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import yaml
+
+          config_dir = Path("terraform/repo-configs")
+          allowed = {
+              "description", "private", "visibility", "homepage",
+              "auto_init", "topics",
+          }
+          paths = sorted(config_dir.glob("*.yaml"))
+
+          if not paths:
+              raise SystemExit(f"No YAML files found in {config_dir}")
+
+          for path in paths:
+              try:
+                  data = yaml.safe_load(path.read_text(encoding="utf-8"))
+              except yaml.YAMLError as error:
+                  raise SystemExit(f"{path}: invalid YAML: {error}") from error
+
+              def fail(message):
+                  raise SystemExit(f"{path}: {message}")
+
+              if not isinstance(data, dict):
+                  fail("must contain a YAML object")
+
+              unknown = set(data) - allowed
+              if unknown:
+                  fail(f"unknown field(s): {', '.join(sorted(unknown))}")
+
+              for field in ("description", "homepage"):
+                  if field in data and not isinstance(data[field], str):
+                      fail(f"{field} must be a string")
+
+              for field in ("private", "auto_init"):
+                  if field in data and not isinstance(data[field], bool):
+                      fail(f"{field} must be true or false")
+
+              if data.get("visibility") not in {None, "public", "private", "internal"}:
+                  fail("visibility must be public, private, or internal")
+
+              if "topics" in data and (
+                  not isinstance(data["topics"], list)
+                  or not all(isinstance(topic, str) for topic in data["topics"])
+              ):
+                  fail("topics must be a list of strings")
+
+              if "private" in data and "visibility" in data:
+                  expected = "private" if data["private"] else "public"
+                  if data["visibility"] != expected:
+                      fail("private and visibility must describe the same visibility")
+
+              print(f"validated {path}")
+          PY
 
   validate:
     name: Format and validate
