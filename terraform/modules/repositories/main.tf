@@ -3,8 +3,7 @@ resource "github_repository" "repos" {
 
   name         = each.value.name
   description  = try(each.value.description, null)
-  visibility   = try(each.value.visibility, "private")
-  private      = try(each.value.private, true)
+  visibility   = try(each.value.visibility, try(each.value.private, true) ? "private" : "public")
   homepage_url = try(each.value.homepage, null)
   auto_init    = try(each.value.auto_init, true)
   topics       = try(each.value.topics, [])

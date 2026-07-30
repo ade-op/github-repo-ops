@@ -10,6 +10,25 @@ permissions:
   contents: read
 
 jobs:
+  yaml:
+    name: Validate repository YAML
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install YAML validator dependency
+        run: python -m pip install pyyaml
+
+      - name: Validate repository YAML files
+        run: python terraform/scripts/validate_repo_configs.py
+
   validate:
     name: Format and validate
     runs-on: ubuntu-latest
