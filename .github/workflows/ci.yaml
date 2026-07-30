@@ -108,6 +108,7 @@ jobs:
     env:
       TF_VAR_github_token: ${{ secrets.GH_PAT }}
       TF_VAR_github_owner: ${{ vars.REPOSITORY_OWNER }}
+      TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
 
     steps:
       - name: Check out repository
