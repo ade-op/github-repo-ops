@@ -1,0 +1,9 @@
+description: "Managed by Terraform and YAML"
+private: true
+visibility: "private"
+topics:
+  - "iac"
+  - "terraform"
+  - "github"
+homepage: ""
+auto_init: true
