@@ -55,7 +55,7 @@ committed.
 The workflows in `.github/workflows/` expect these GitHub settings:
 
 - Repository secret `GH_PAT`: a GitHub token that can manage repositories.
-- Repository variable `GITHUB_OWNER`: the GitHub user or organization that owns the repositories.
+- Repository variable `REPOSITORY_OWNER`: the GitHub user or organization that owns the repositories.
 - Persistent Terraform state configured for the `terraform/config` working directory.
 
 The deployment workflow applies changes to `main`. Configure remote Terraform
