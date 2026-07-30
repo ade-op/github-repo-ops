@@ -19,6 +19,12 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Check formatting
+        run: terraform fmt -check -recursive
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -85,12 +91,6 @@ jobs:
 
               print(f"validated {path}")
           PY
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
-
-      - name: Check formatting
-        run: terraform fmt -check -recursive
 
       - name: Initialize Terraform
         run: terraform init -backend=false -input=false
