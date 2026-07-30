@@ -49,3 +49,15 @@ Run `terraform -chdir=terraform/config plan` or `terraform -chdir=terraform/conf
 after adding or changing a file.
 In a CI workflow, the same command can run automatically after the change is
 committed.
+
+## GitHub Actions
+
+The workflows in `.github/workflows/` expect these GitHub settings:
+
+- Repository secret `GH_PAT`: a GitHub token that can manage repositories.
+- Repository variable `GITHUB_OWNER`: the GitHub user or organization that owns the repositories.
+- Persistent Terraform state configured for the `terraform/config` working directory.
+
+The deployment workflow applies changes to `main`. Configure remote Terraform
+state before relying on repeated CI deployments; a runner's local state is not
+persistent between workflow runs.
