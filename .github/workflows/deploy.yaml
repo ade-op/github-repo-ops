@@ -23,7 +23,7 @@ jobs:
         working-directory: terraform/config
     env:
       TF_VAR_github_token: ${{ secrets.GH_PAT }}
-      TF_VAR_github_owner: ${{ vars.GITHUB_OWNER }}
+      TF_VAR_github_owner: ${{ vars.REPOSITORY_OWNER }}
 
     steps:
       - name: Check out repository
