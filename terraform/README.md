@@ -56,8 +56,7 @@ The workflows in `.github/workflows/` expect these GitHub settings:
 
 - Repository secret `GH_PAT`: a GitHub token that can manage repositories.
 - Repository variable `REPOSITORY_OWNER`: the GitHub user or organization that owns the repositories.
-- Persistent Terraform state configured for the `terraform/config` working directory.
+- Repository secret `TF_TOKEN_APP_TERRAFORM_IO`: an HCP Terraform API token for the `ade-op` organization.
 
-The deployment workflow applies changes to `main`. Configure remote Terraform
-state before relying on repeated CI deployments; a runner's local state is not
-persistent between workflow runs.
+HCP Terraform stores state in the `ade-op/github-repo-ops` workspace. The
+deployment workflow applies changes to `main`.

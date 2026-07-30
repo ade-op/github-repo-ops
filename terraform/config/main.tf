@@ -1,6 +1,14 @@
 terraform {
   required_version = ">= 1.5.0"
 
+  cloud {
+    organization = "ade-op"
+
+    workspaces {
+      name = "github-repo-ops"
+    }
+  }
+
   required_providers {
     github = {
       source  = "integrations/github"
