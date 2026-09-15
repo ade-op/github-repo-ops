@@ -123,7 +123,7 @@ jobs:
       - name: Create Terraform plan
         run: | 
           set -o pipefail
-          erraform plan -input=false -no-color 2>&1 | tee plan.txt
+          terraform plan -input=false -no-color 2>&1 | tee plan.txt
           {
             echo "## Terraform Plan"
             echo
