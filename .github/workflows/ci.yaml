@@ -121,4 +121,13 @@ jobs:
         run: terraform init -input=false
 
       - name: Create Terraform plan
-        run: terraform plan -input=false -no-color
+        run: | 
+          set -o pipefail
+          terraform plan -input=false -no-color 2>&1 | tee plan.txt
+          {
+            echo "## Terraform Plan"
+            echo
+            echo '```text'
+            cat plan.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
