@@ -1,12 +1,12 @@
 # GitHub Repository Operations
 
 Manage GitHub repositories as code with Terraform and YAML configuration files.
-Each YAML file in `terraform/repo-configs/` describes one repository, and its
+Each YAML file in `repo-configs/` describes one repository, and its
 filename becomes the GitHub repository name.
 
 ## How it works
 
-1. Add or update a repository manifest in `terraform/repo-configs/`.
+1. Add or update a repository manifest in `repo-configs/`.
 2. Terraform reads the manifests and passes them to the reusable repository
    module in `terraform/modules/repositories/`.
 3. GitHub Actions validates the YAML and Terraform configuration, then creates
@@ -43,7 +43,7 @@ Terraform prompts for `github_token` and `github_owner` if they are not set in
 
 ## Repository manifest format
 
-Create a file such as `terraform/repo-configs/example-repository.yaml`:
+Create a file such as `repo-configs/example-repository.yaml`:
 
 ```yaml
 description: "Managed by Terraform"

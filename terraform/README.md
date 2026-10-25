@@ -4,7 +4,7 @@ This repository shows a Terraform-first way to manage GitHub repositories from a
 
 ## What it does
 
-- Keep one repository definition per YAML file in [repo-configs](repo-configs)
+- Keep one repository definition per YAML file in [repo-configs](../repo-configs)
 - Use Terraform to create or update GitHub repositories
 - Use the YAML filename as the GitHub repository name
 
@@ -30,8 +30,8 @@ This repository shows a Terraform-first way to manage GitHub repositories from a
 
 ## How to add a repository
 
-Add a YAML file under `terraform/repo-configs/`. The filename becomes the GitHub
-repository name. For example, `terraform/repo-configs/another-repo.yaml` creates a
+Add a YAML file under `repo-configs/`. The filename becomes the GitHub repository
+name. For example, `repo-configs/another-repo.yaml` creates a
 repository named `another-repo`:
 
 Example:

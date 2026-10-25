@@ -41,10 +41,10 @@ jobs:
           from pathlib import Path
           import yaml
 
-          config_dir = Path("terraform/repo-configs")
+          config_dir = Path("repo-configs")
           allowed = {
               "description", "private", "visibility", "homepage",
-              "auto_init", "topics",
+              "auto_init", "topics", "branch_protection",
           }
           paths = sorted(config_dir.glob("*.yaml"))
 
@@ -83,6 +83,59 @@ jobs:
                   or not all(isinstance(topic, str) for topic in data["topics"])
               ):
                   fail("topics must be a list of strings")
+
+              if "branch_protection" in data:
+                  protection = data["branch_protection"]
+                  if not isinstance(protection, dict):
+                      fail("branch_protection must be an object")
+
+                  protection_allowed = {
+                      "pattern", "required_status_checks",
+                      "required_pull_request_reviews",
+                  }
+                  unknown = set(protection) - protection_allowed
+                  if unknown:
+                      fail(
+                          "branch_protection has unknown field(s): "
+                          + ", ".join(sorted(unknown))
+                      )
+
+                  if "pattern" in protection and not isinstance(protection["pattern"], str):
+                      fail("branch_protection.pattern must be a string")
+
+                  checks = protection.get("required_status_checks")
+                  if checks is not None:
+                      if not isinstance(checks, dict):
+                          fail("branch_protection.required_status_checks must be an object")
+                      unknown = set(checks) - {"strict", "contexts"}
+                      if unknown:
+                          fail(
+                              "required_status_checks has unknown field(s): "
+                              + ", ".join(sorted(unknown))
+                          )
+                      if "strict" in checks and not isinstance(checks["strict"], bool):
+                          fail("required_status_checks.strict must be true or false")
+                      if "contexts" in checks and (
+                          not isinstance(checks["contexts"], list)
+                          or not all(isinstance(context, str) for context in checks["contexts"])
+                      ):
+                          fail("required_status_checks.contexts must be a list of strings")
+
+                  reviews = protection.get("required_pull_request_reviews")
+                  if reviews is not None:
+                      if not isinstance(reviews, dict):
+                          fail("branch_protection.required_pull_request_reviews must be an object")
+                      unknown = set(reviews) - {"required_approving_review_count"}
+                      if unknown:
+                          fail(
+                              "required_pull_request_reviews has unknown field(s): "
+                              + ", ".join(sorted(unknown))
+                          )
+                      count = reviews.get("required_approving_review_count")
+                      if count is not None and (
+                          isinstance(count, bool) or not isinstance(count, int) or count < 0
+                      ):
+                          fail("required_approving_review_count must be a non-negative integer")
 
               if "private" in data and "visibility" in data:
                   expected = "private" if data["private"] else "public"

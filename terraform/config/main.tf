@@ -23,11 +23,11 @@ provider "github" {
 }
 
 locals {
-  repo_config_files = fileset("${path.module}/../repo-configs", "*.yaml")
+  repo_config_files = fileset("${path.module}/../../repo-configs", "*.yaml")
 
   repos = [
     for config_file in local.repo_config_files : merge(
-      yamldecode(file("${path.module}/../repo-configs/${config_file}")),
+      yamldecode(file("${path.module}/../../repo-configs/${config_file}")),
       {
         name = trimsuffix(basename(config_file), ".yaml")
       }
