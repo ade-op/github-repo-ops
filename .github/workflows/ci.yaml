@@ -41,7 +41,7 @@ jobs:
           from pathlib import Path
           import yaml
 
-          config_dir = Path("terraform/repo-configs")
+          config_dir = Path("repo-configs")
           allowed = {
               "description", "private", "visibility", "homepage",
               "auto_init", "topics",
