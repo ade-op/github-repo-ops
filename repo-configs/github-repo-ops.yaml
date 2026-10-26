@@ -1,6 +1,6 @@
 description: "Terraform-managed GitHub repository operations"
-private: true
-visibility: "private"
+private: false 
+visibility: "public"
 auto_init: false
 branch_protection:
   pattern: "main"
