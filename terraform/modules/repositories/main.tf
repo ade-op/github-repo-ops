@@ -20,7 +20,7 @@ resource "github_branch_protection" "repos" {
 
   repository_id  = each.key
   pattern        = try(each.value.branch_protection.pattern, "main")
-  enforce_admins = true
+  enforce_admins = false
 
   dynamic "required_status_checks" {
     for_each = try(each.value.branch_protection.required_status_checks, null) == null ? [] : [each.value.branch_protection.required_status_checks]
