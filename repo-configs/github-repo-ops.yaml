@@ -1,13 +1,13 @@
 description: "Terraform-managed GitHub repository operations"
-private: true
-visibility: "private"
+private: false
+visibility: "public"
 auto_init: false
 branch_protection:
   pattern: "main"
   required_status_checks:
     strict: true
     contexts:
-      - "Terraform CI / Format and validate"
-      - "Terraform CI / Terraform plan"
+    - "Terraform CI / Format and validate"
+    - "Terraform CI / Terraform plan"
   required_pull_request_reviews:
     required_approving_review_count: 1
