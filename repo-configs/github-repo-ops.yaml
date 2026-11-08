@@ -7,7 +7,7 @@ branch_protection:
   required_status_checks:
     strict: true
     contexts:
-    - "Terraform CI / Format and validate"
-    - "Terraform CI / Terraform plan"
+      - "Terraform CI / Format and validate (pull_request)"
+      - "Terraform CI / Terraform plan (pull_request)"
   required_pull_request_reviews:
     required_approving_review_count: 1
